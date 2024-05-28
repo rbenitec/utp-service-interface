@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: interface_Utp
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/utp
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+    hibernate:
+      ddlAuto: create
+
+server:
+  port: 8120
