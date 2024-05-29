@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.controller.dto.CreatedUserDto;
+import com.example.demo.controller.dto.RequestUtpClient;
+import com.example.demo.controller.dto.ResponseUtpClient;
 import com.example.demo.entities.ERole;
 import com.example.demo.entities.Rol;
 import com.example.demo.entities.User;
@@ -23,6 +25,15 @@ public class UserController {
     private final RoleService roleService;
     private final UserService userService;
 
+    @PostMapping("/authenticate")
+    public ResponseUtpClient userAuthentication (@RequestBody RequestUtpClient requestUtpClient) {
+        Optional<User> user = userService.findByUsername(requestUtpClient.getUsername());
+        if(user.isPresent()){
+            return builResponseUtpClient(user.get());
+        }else{
+            return null;
+        }
+    }
     @PostMapping("/created-user")
     public ResponseEntity<?> createdUser(@Valid @RequestBody CreatedUserDto userDto){
         Set<Rol> roles = userDto.getRoles().stream()
@@ -61,4 +72,14 @@ public class UserController {
         }
     }
 
+    private ResponseUtpClient builResponseUtpClient(User user) {
+        return ResponseUtpClient.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .email(user.getEmail())
+                .createdAt(user.getCreatedAt())
+                .names(user.getNames())
+                .lastname(user.getLastname())
+                .build();
+    }
 }

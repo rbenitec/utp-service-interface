@@ -35,6 +35,7 @@ public class User {
     @NotBlank
     @Size(max = 8, min = 8)
     private String dni;
+    private String createdAt;
     @Email
     @NotBlank
     @Size(max = 80)

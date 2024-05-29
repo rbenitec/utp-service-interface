@@ -9,8 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
-    Optional<User> findByUsername(String username);
+    //Optional<User> findByUsername(String username);
 
-    @Query("select u from user u where u.username = ?1")
+    @Query(value = "select u from user u where u.username = ?1", nativeQuery = true)
     Optional<User> getName(String username);
 }
