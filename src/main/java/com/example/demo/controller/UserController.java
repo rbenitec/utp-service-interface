@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -50,6 +51,7 @@ public class UserController {
                 .lastname(userDto.getLastname())
                 .dni(userDto.getDni())
                 .roles(roles)
+                .createdAt(LocalDate.now())
                 .build();
 
         userService.saveUser(user);

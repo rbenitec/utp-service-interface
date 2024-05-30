@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -35,7 +36,7 @@ public class User {
     @NotBlank
     @Size(max = 8, min = 8)
     private String dni;
-    private String createdAt;
+    private LocalDate createdAt;
     @Email
     @NotBlank
     @Size(max = 80)
