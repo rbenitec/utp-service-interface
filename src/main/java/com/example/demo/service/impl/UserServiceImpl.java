@@ -1,24 +1,30 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.entities.ERole;
+import com.example.demo.entities.Rol;
 import com.example.demo.entities.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private RoleService rolService;
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.getName(username);
+    public Optional<User> findByUsername(String username, String password) {
+        return userRepository.authenticate(username, password);
     }
 
     @Override
@@ -29,6 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUser(User user) {
         return userRepository.save(user);
+        //return userRepository.save(user);
     }
 
     @Override

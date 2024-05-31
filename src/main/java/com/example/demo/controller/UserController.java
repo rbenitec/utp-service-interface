@@ -10,6 +10,7 @@ import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/interface")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     private final RoleService roleService;
@@ -28,7 +30,8 @@ public class UserController {
 
     @PostMapping("/authenticate")
     public ResponseUtpClient userAuthentication (@RequestBody RequestUtpClient requestUtpClient) {
-        Optional<User> user = userService.findByUsername(requestUtpClient.getUsername());
+        log.info("POST --> Se llamo al endPoint authenticate: {}", requestUtpClient.toString());
+        Optional<User> user = userService.findByUsername(requestUtpClient.getUsername(), requestUtpClient.getPassword());
         if(user.isPresent()){
             return builResponseUtpClient(user.get());
         }else{
@@ -66,12 +69,7 @@ public class UserController {
 
     @GetMapping("/get-user")
     public ResponseEntity<User> getUser (@RequestParam String username) {
-        Optional<User> user = userService.findByUsername(username);
-        if(user.isPresent()){
-            return ResponseEntity.ok(user.get());
-        }else {
-            return ResponseEntity.notFound().build();
-        }
+        return null;
     }
 
     private ResponseUtpClient builResponseUtpClient(User user) {
