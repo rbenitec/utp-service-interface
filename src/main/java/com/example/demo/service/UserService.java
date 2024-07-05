@@ -7,7 +7,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface UserService {
-    Optional<User> findByUsername(String username, String password);
+    Optional<User> authenticateUser(String username, String password);
+    Optional<User> findByUsername(String username);
     Optional<User> getName(String username);
     User saveUser(User user);
     void deleteUser(Integer id);

@@ -14,4 +14,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query(value = "select * from user u where u.username = :username AND u.password = :password", nativeQuery = true)
     Optional<User> authenticate(@Param("username") String username, @Param("password") String password);
 
+    @Query(value = "select * from user u where u.username = :username", nativeQuery = true)
+    Optional<User> findByUsername(@Param("username") String username);
+
 }

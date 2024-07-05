@@ -17,4 +17,5 @@ public class ResponseUtpClient {
     private String names;
     private String lastname;
     private String dni;
+    private String campus;
 }

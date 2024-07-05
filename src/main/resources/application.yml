@@ -3,9 +3,9 @@ spring:
     name: interface_Utp
 
   datasource:
-    url: jdbc:mysql://uauvekqweyd9fntp:edTKwQbOub33zhn45vhM@bmnuyjeaewfcz68wmk5v-mysql.services.clever-cloud.com:3306/bmnuyjeaewfcz68wmk5v
-    username: uauvekqweyd9fntp
-    password: edTKwQbOub33zhn45vhM
+    url: jdbc:mysql://localhost:3306/utp
+    username: root
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -15,3 +15,9 @@ spring:
 
 server:
   port: 8120
+
+#datasource:
+  #    url: jdbc:mysql://uauvekqweyd9fntp:edTKwQbOub33zhn45vhM@bmnuyjeaewfcz68wmk5v-mysql.services.clever-cloud.com:3306/bmnuyjeaewfcz68wmk5v
+  #    username: uauvekqweyd9fntp
+  #    password: edTKwQbOub33zhn45vhM
+  #    driver-class-name: com.mysql.cj.jdbc.Driver

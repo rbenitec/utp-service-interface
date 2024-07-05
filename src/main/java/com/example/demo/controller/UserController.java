@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.controller.dto.CreatedUserDto;
 import com.example.demo.controller.dto.RequestUtpClient;
+import com.example.demo.controller.dto.ResponseErrorDto;
 import com.example.demo.controller.dto.ResponseUtpClient;
 import com.example.demo.entities.ERole;
 import com.example.demo.entities.Rol;
@@ -31,34 +32,43 @@ public class UserController {
     @PostMapping("/authenticate")
     public ResponseUtpClient userAuthentication (@RequestBody RequestUtpClient requestUtpClient) {
         log.info("POST --> Se llamo al endPoint authenticate: {}", requestUtpClient.toString());
-        Optional<User> user = userService.findByUsername(requestUtpClient.getUsername(), requestUtpClient.getPassword());
+        Optional<User> user = userService.authenticateUser(requestUtpClient.getUsername(), requestUtpClient.getPassword());
+        //log.info("RESPONSE: {}", user.get());
         if(user.isPresent()){
+            log.info("RESPONSE: {}", user.get());
             return builResponseUtpClient(user.get());
         }else{
+            log.info("EL usuario no existe!");
             return null;
         }
     }
     @PostMapping("/created-user")
     public ResponseEntity<?> createdUser(@Valid @RequestBody CreatedUserDto userDto){
-        Set<Rol> roles = userDto.getRoles().stream()
-                .map(role -> Rol.builder()
-                        .rol(ERole.valueOf(String.valueOf(role)))
-                        .build())
-                .collect(Collectors.toSet());
+        Optional<User> userExist = userService.findByUsername(userDto.getUsername());
+        if(userExist.isEmpty()){
+            Set<Rol> roles = userDto.getRoles().stream()
+                    .map(role -> Rol.builder()
+                            .rol(ERole.valueOf(String.valueOf(role)))
+                            .build())
+                    .collect(Collectors.toSet());
 
-        User user = User.builder()
-                .username(userDto.getUsername())
-                .password(userDto.getPassword())
-                .email(userDto.getEmail())
-                .names(userDto.getNames())
-                .lastname(userDto.getLastname())
-                .dni(userDto.getDni())
-                .roles(roles)
-                .createdAt(LocalDate.now())
-                .build();
+            User user = User.builder()
+                    .username(userDto.getUsername())
+                    .password(userDto.getPassword())
+                    .email(userDto.getEmail())
+                    .names(userDto.getNames())
+                    .lastname(userDto.getLastname())
+                    .dni(userDto.getDni())
+                    .roles(roles)
+                    .createdAt(LocalDate.now())
+                    .build();
 
-        userService.saveUser(user);
-        return ResponseEntity.ok(user);
+            userService.saveUser(user);
+            return ResponseEntity.ok(user);
+        }else {
+            ResponseErrorDto responseErrorDto =  new ResponseErrorDto(202, "EL usuario ingresado ya existe");
+            return ResponseEntity.accepted().body(responseErrorDto);
+        }
     }
 
     @DeleteMapping("/deleteUser")
@@ -80,6 +90,8 @@ public class UserController {
                 .createdAt(user.getCreatedAt())
                 .names(user.getNames())
                 .lastname(user.getLastname())
+                .dni(user.getDni())
+                .campus(user.getCampus())
                 .build();
     }
 }

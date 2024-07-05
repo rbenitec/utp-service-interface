@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -17,6 +14,7 @@ import java.util.Set;
 @Builder
 @Data
 @Entity
+@ToString
 @Table(name = "user")
 public class User {
     @Id
@@ -34,6 +32,8 @@ public class User {
     @NotBlank
     private String password;
     @NotBlank
+    private String campus;
+    @NotBlank
     @Size(max = 8, min = 8)
     private String dni;
     private LocalDate createdAt;
@@ -41,7 +41,7 @@ public class User {
     @NotBlank
     @Size(max = 80)
     private String email;
-
+//AUTOR Y OBRA
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Rol.class, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "user_roles",
